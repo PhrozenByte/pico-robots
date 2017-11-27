@@ -131,7 +131,7 @@ class PicoRobots extends AbstractPicoPlugin
 
                 $this->robots[] = array(
                     'user_agents' => $userAgents ?: array('*'),
-                    'disallow' => $disallow ?: (!$allow ? array('*') : array()),
+                    'disallow' => $disallow ?: (!$allow ? array('/') : array()),
                     'allow' => $allow
                 );
             }
