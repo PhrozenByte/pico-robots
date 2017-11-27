@@ -57,7 +57,18 @@ The `robots.txt` doesn't affect Pico's `Robots` meta header in the YAML Frontmat
 
 `PicoRobots` uses the `theme/robots.twig` template to create the contents of `robots.txt`. If you want to add some custom logic to your `robots.txt`, simply add a `robots.twig` to your theme and use `PicoRobot`'s `theme/robots.twig` as a starting point. Pico will automatically use your theme's `robots.twig` rather than `PicoRobot`'s default one.
 
-The plugin furthermore exposes a simple API to allow other plugins to access and add URL exclusion rules to your `robots.txt`. As a plugin developer you may use the `PicoRobots::getRobots()` method to get a list of all URL exclusion rules. `PicoRobots` furthermore triggers the custom `onRobots(array &$robots)` event (`$robots = [ [ 'user_agents' => [ … ], 'disallow' => [ … ], 'allow' => [ … ] ], … ]`), allowing you to add custom rules to the website's `robots.txt`.
+The plugin furthermore exposes a simple API to allow other plugins to access and add URL exclusion rules to your `robots.txt`. As a plugin developer you may use the `PicoRobots::getRobots()` method to get a list of all URL exclusion rules. `PicoRobots` furthermore triggers the custom `onRobots(array &$robots)` event with the following payload, allowing you to add custom rules to the website's `robots.txt`.
+
+```php
+$robots = [
+    [
+        'user_agents' => string[],  /* list of user agents, or '*' to match all web robots */
+        'disallow'    => string[],  /* list of URLs that shouldn't be crawled */
+        'allow'       => string[]   /* list of disallowed URLs that are allowed to be crawled even though */
+    ],
+    …
+]
+```
 
 Please note that URL exclusion rules in your `robots.txt` won't affect your website's `sitemap.xml` created by `PicoRobots` in any way.
 
@@ -98,12 +109,24 @@ As you can see, `PicoRobots` interprets the `%base_url%` placeholder the same wa
 
 `PicoRobots` uses the `theme/sitemap.twig` template to create the contents of `sitemap.xml`. If you want to add some custom logic to your `sitemap.xml`, simply add a `sitemap.twig` to your theme and use `PicoRobot`'s `theme/sitemap.twig` as a starting point. Pico will automatically use your theme's `sitemap.twig` rather than `PicoRobot`'s default one.
 
-The plugin furthermore exposes a simple API to allow other plugins to access and add sitemap records to your `sitemap.xml`. As a plugin developer you may use the `PicoRobots::getSitemap()` method to get a list of all sitemap records. `PicoRobots` furthermore triggers the custom `onSitemap(array &$sitemap)` event (`$sitemap = [ [ 'url' => [ … ], 'modificationTime' => [ … ], 'changeFrequency' => [ … ], 'priority' => [ … ] ], … ]`), allowing you to add custom records to the website's `sitemap.xml`.
+The plugin furthermore exposes a simple API to allow other plugins to access and add sitemap records to your `sitemap.xml`. As a plugin developer you may use the `PicoRobots::getSitemap()` method to get a list of all sitemap records. `PicoRobots` furthermore triggers the custom `onSitemap(array &$sitemap)` event with the following payload, allowing you to add custom records to the website's `sitemap.xml`.
+
+```php
+$sitemap = [
+    [
+        'url'              => string,   /* URL of the concerned page, including the protocol */
+        'modificationTime' => int,      /* Unix timestamp of the page's last modification time */
+        'changeFrequency'  => string,   /* how frequently the contents of the page may change */
+        'priority'         => float     /* priority of that URL relative to other URLs on the site */
+    ],
+    …
+]
+```
 
 [RobotsProtocol]: https://en.wikipedia.org/wiki/Robots_exclusion_standard
 [SitemapsProtocol]: https://en.wikipedia.org/wiki/Sitemaps
 [PicoComposer]: https://github.com/picocms/pico-composer
 [Packagist.org]: https://packagist.org/packages/phrozenbyte/pico-robots
 [PicoRelease]: https://github.com/picocms/Pico/releases/latest
-[PicoRobotsRelease]: https://github.com/PhrozenByte/pico-robot/releases/latest
+[PicoRobotsRelease]: https://github.com/PhrozenByte/pico-robots/releases/latest
 [XML]: https://en.wikipedia.org/wiki/XML
