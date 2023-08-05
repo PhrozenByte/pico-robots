@@ -10,11 +10,24 @@ Pico is a stupidly simple, blazing fast, flat file CMS. See http://picocms.org/ 
 Install
 -------
 
+`PicoRobots` requires Pico 2.0+
+
 If you're using a `composer`-based installation of Pico (e.g. [`picocms/pico-composer`][PicoComposer]), simply open a shell on your server, navigate to Pico's install directory (e.g. `/var/www/html`) and run `composer require phrozenbyte/pico-robots` (via [Packagist.org][]). That's it!
 
-If you're rather using one of [Pico's pre-built release packages][PicoRelease], you must first create a empty `plugins/PicoRobots` directory in Pico's install directory (e.g. `/var/www/html`) on your server. Then download [`PicoRobot`'s latest source package][PicoRobotsRelease] and upload all containing files (esp. `PicoRobots.php`) into said `plugins/PicoRobots` directory (resulting in `plugins/PicoRobots/PicoRobots.php`). That's it!
+If you're rather using one of [Pico's pre-built release packages][PicoRelease], you need to first create an empty `plugins/PicoRobots` directory in Pico's install directory (e.g. `/var/www/html`) on your server. Then download [`PicoRobot`'s latest source package][PicoRobotsRelease] and upload all containing files (esp. `PicoRobots.php` and the `theme` directory) into the said `plugins/PicoRobots` directory. 
 
-`PicoRobots` requires Pico 2.0+
+And that's it! The resulting structure in your `plugins` directory should look like this:
+
+```
+plugins/
+└── PicoRobots/
+	 ├── PicoRobots.php
+	 └── theme/
+		 ├── robots.twig
+		 └── sitemap.twig
+```
+
+You can copy the `theme` directory into your own theme directory under `./themes/yourtheme`. This enables you to overwrite the plugin's templates in your theme without the need to fiddle around with the plugin's files. Even in this case, though, you still need to keep this plugin's original `theme` directory and its contents in `./plugins/PicoRobots`. 
 
 Config
 ------
